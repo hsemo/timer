@@ -1,35 +1,42 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from 'react';
+import {Timer} from './components';
+import {useTimers, TimersContextProvider} from './contexts/TimerContextProvider.jsx';
 
-function App() {
-  const [count, setCount] = useState(0)
+import 'semantic-ui-css/semantic.min.css';
+import './App.css';
 
-  return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+function TimersList(){
+  const {timers} = useTimers();
+  console.log('TimersList: ',timers);
+
+  return(
+    <ul>
+      {
+        timers.map((timer) => {
+          return (
+            <li
+              key={timer.id}
+            >
+              <Timer
+                id={timer.id}
+                label={timer.label}
+                time={timer.time}
+              />
+            </li>
+          );
+        })
+      }
+    </ul>
+  );
 }
 
-export default App
+function App() {
+
+  return (
+    <TimersContextProvider>
+      <TimersList />
+    </TimersContextProvider>
+  );
+}
+
+export default App;
