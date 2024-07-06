@@ -20,7 +20,7 @@ const getTimers = () => {
       {
         id: Date.now(),
         label: 'Meditation',
-        time: '10:00'
+        time: '00:10'
       }
     ]);
   }
@@ -31,16 +31,24 @@ const getTimers = () => {
 
 const TimersContextProvider = ({children}) => {
   const [timers, setTimers] = useState(getTimers());
-  console.log('TimersContextProvider: ', timers);
 
   const addTimer = (timer) => {
+    console.log("addTimer: ", timer);
     setTimers([...timers, timer]);
   };
 
-  const updateTimer = ({id, time, label}) => {
+  const deleteTimer = (id) => {
+    console.log("deleteTimer: ", id);
+    const newTimers = timers.filter((timer) => timer.id !== id);
+    setTimers(newTimers);
+  }
+
+  const updateTimer = (id, time, label) => {
+    console.log('updateTimer: ', {id, time, label});
     const updatedTimers = timers.map((timer) => {
       if(timer.id === id){
-        return({id, time, label});
+        const newTimer = {id, time, label};
+        return(newTimer);
       }
       return timer;
     });
@@ -58,6 +66,7 @@ const TimersContextProvider = ({children}) => {
         {
           timers,
           addTimer,
+          deleteTimer,
           updateTimer
         }
       }
