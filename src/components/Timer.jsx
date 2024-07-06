@@ -30,17 +30,20 @@ const timeToStr = ({minutes, seconds}) => {
   minutes = '' + minutes;
   seconds = '' + seconds;
   const timeStr = `${minutes.padStart(2,0)}:${seconds.padStart(2,0)}`;
-  console.log(timeStr);
   return (timeStr);
 }
 
 const Timer = ({id, label: lbl, time: tm}) => {
-  console.log('lbl: ', lbl);
-  console.log('tm: ', tm);
   const [label, setLabel] = useState(lbl);
+
   const timeRef = useRef(getTimeFromTm(tm));
   const [time, setTime] = useState(timeToStr(timeRef.current));
+
   const [timer, setTimer] = useState(false);
+
+  console.log('lbl: ', lbl);
+  console.log('tm: ', tm);
+  console.log('timeRef: ', timeRef.current);
 
   const {updateTimer, deleteTimer} = useTimers();
 
@@ -72,16 +75,16 @@ const Timer = ({id, label: lbl, time: tm}) => {
     if(e.key && e.key !== 'Enter') return;
     e.preventDefault();
     e.target.blur();
-    const time = e.target.value;
-    updateTimer(id, time, lbl);
+    // const time = e.target.value;
+    updateTimer(id, time, label);
   };
 
   const updateLabel = (e, id) => {
     if(e.key && e.key !== 'Enter') return;
     e.preventDefault();
     e.target.blur();
-    const label = e.target.value;
-    updateTimer(id, tm, label);
+    // const label = e.target.value;
+    updateTimer(id, time, label);
   };
 
   useEffect(() => {
@@ -114,6 +117,10 @@ const Timer = ({id, label: lbl, time: tm}) => {
     });
 
   }, [timer]);
+
+  useEffect(() => {
+    timeRef.current = getTimeFromTm(time);
+  }, [time]);
 
   return(
     <>
