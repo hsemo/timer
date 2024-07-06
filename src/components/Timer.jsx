@@ -1,4 +1,4 @@
-import {useState, useEffect, useRef} from 'react';
+import {useState, useEffect, useRef, useMemo} from 'react';
 import {useTimers} from '../contexts/TimerContextProvider.jsx';
 
 import {beep1Mp3} from '../assets/sounds.js';
@@ -41,11 +41,9 @@ const Timer = ({id, label: lbl, time: tm}) => {
 
   const [timer, setTimer] = useState(false);
 
-  console.log('lbl: ', lbl);
-  console.log('tm: ', tm);
-  console.log('timeRef: ', timeRef.current);
-
   const {updateTimer, deleteTimer} = useTimers();
+
+  const sound = useMemo(() => new Audio(beep), []);
 
   const startTimer = () => {
     if(timer) return;
@@ -67,7 +65,6 @@ const Timer = ({id, label: lbl, time: tm}) => {
   };
 
   const playBeep = () => {
-    let sound = new Audio(beep);
     sound.play();
   };
 
