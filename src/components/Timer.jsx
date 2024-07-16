@@ -1,39 +1,9 @@
 import {useState, useEffect, useRef, useMemo} from 'react';
 import {useTimers} from '../contexts/TimerContextProvider.jsx';
 
-import {beep1Mp3} from '../assets/sounds.js';
 import beep from '../assets/beep1.mp3';
 
-function Button({className, onClickHandlr, children}){
-  className = className || '';
-
-  return(
-    <button
-      className={"px-4 py-2 bg-green-500 hover:bg-green-600 focus:outline-none" + className}
-      onClick={onClickHandlr}
-    >
-      {children}
-    </button>
-  );
-}
-
-const getTimeFromTm = (tm) => {
-  if(!tm) return {minutes: 0, seconds: 0};
-  const [minutes, seconds] = tm.split(':').map((str) => parseInt(str));
-  return {
-    minutes,
-    seconds
-  };
-};
-
-const timeToStr = ({minutes, seconds}) => {
-  minutes = '' + minutes;
-  seconds = '' + seconds;
-  const timeStr = `${minutes.padStart(2,0)}:${seconds.padStart(2,0)}`;
-  return (timeStr);
-}
-
-const Timer = ({id, label: lbl, time: tm}) => {
+function Timer({id, label: lbl, time: tm}) {
   const [label, setLabel] = useState(lbl);
 
   const timeRef = useRef(getTimeFromTm(tm));
@@ -45,44 +15,6 @@ const Timer = ({id, label: lbl, time: tm}) => {
 
   const sound = useMemo(() => new Audio(beep), []);
 
-  const startTimer = () => {
-    if(timer) return;
-    setTimer(true);
-    console.log("timer start");
-  };
-
-  const stopTimer = () => {
-    if(!timer) return;
-    setTimer(false);
-    console.log("timer stop");
-  };
-
-  const resetTimer = () => {
-    setTimer(false);
-    timeRef.current = getTimeFromTm(tm);
-    setTime(timeToStr(timeRef.current));
-    console.log("timer reset");
-  };
-
-  const playBeep = () => {
-    sound.play();
-  };
-
-  const updateTime = (e, id) => {
-    if(e.key && e.key !== 'Enter') return;
-    e.preventDefault();
-    e.target.blur();
-    // const time = e.target.value;
-    updateTimer(id, time, label);
-  };
-
-  const updateLabel = (e, id) => {
-    if(e.key && e.key !== 'Enter') return;
-    e.preventDefault();
-    e.target.blur();
-    // const label = e.target.value;
-    updateTimer(id, time, label);
-  };
 
   useEffect(() => {
     if(timer === false){
@@ -177,6 +109,74 @@ const Timer = ({id, label: lbl, time: tm}) => {
 
     </>
   );
+
+  function startTimer() {
+    if(timer) return;
+    setTimer(true);
+    console.log("timer start");
+  };
+
+  function stopTimer() {
+    if(!timer) return;
+    setTimer(false);
+    console.log("timer stop");
+  };
+
+  function resetTimer() {
+    setTimer(false);
+    timeRef.current = getTimeFromTm(tm);
+    setTime(timeToStr(timeRef.current));
+    console.log("timer reset");
+  };
+
+  function playBeep() {
+    sound.play();
+  };
+
+  function updateTime(e, id) {
+    if(e.key && e.key !== 'Enter') return;
+    e.preventDefault();
+    e.target.blur();
+    // const time = e.target.value;
+    updateTimer(id, time, label);
+  };
+
+  function updateLabel(e, id) {
+    if(e.key && e.key !== 'Enter') return;
+    e.preventDefault();
+    e.target.blur();
+    // const label = e.target.value;
+    updateTimer(id, time, label);
+  };
 };
+
+function Button({className, onClickHandlr, children}){
+  className = className || '';
+
+  return(
+    <button
+      className={"px-4 py-2 bg-green-500 hover:bg-green-600 focus:outline-none" + className}
+      onClick={onClickHandlr}
+    >
+      {children}
+    </button>
+  );
+}
+
+function getTimeFromTm(tm) {
+  if(!tm) return {minutes: 0, seconds: 0};
+  const [minutes, seconds] = tm.split(':').map((str) => parseInt(str));
+  return {
+    minutes,
+    seconds
+  };
+};
+
+function timeToStr({minutes, seconds}) {
+  minutes = '' + minutes;
+  seconds = '' + seconds;
+  const timeStr = `${minutes.padStart(2,0)}:${seconds.padStart(2,0)}`;
+  return (timeStr);
+}
 
 export default Timer;

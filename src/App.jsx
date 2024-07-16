@@ -2,8 +2,21 @@ import { useState } from 'react';
 import {Timer} from './components';
 import {useTimers, TimersContextProvider} from './contexts/TimerContextProvider.jsx';
 
-import 'semantic-ui-css/semantic.min.css';
 import './App.css';
+
+function App() {
+  return (
+    <div
+      id="App"
+      className="w-full min-h-screen bg-neutral-700"
+    >
+      <TimersContextProvider>
+        <TimersList />
+        <AddTimerButton />
+      </TimersContextProvider>
+    </div>
+  );
+}
 
 function TimersList(){
   const {timers} = useTimers();
@@ -46,21 +59,6 @@ function AddTimerButton(){
     >
       +
     </button>
-    </div>
-  );
-}
-
-function App() {
-
-  return (
-    <div
-      id="App"
-      className="w-full min-h-screen bg-neutral-700"
-    >
-      <TimersContextProvider>
-        <TimersList />
-        <AddTimerButton />
-      </TimersContextProvider>
     </div>
   );
 }
