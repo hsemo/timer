@@ -7,7 +7,7 @@ export default defineConfig({
   plugins: [
     react(),
     VitePWA({
-      includeAssets: ['favicon.ico', 'apple-touch-icon.png'],
+      includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'beep1.mp3', 'beep2.mp3'],
       registerType: 'autoUpdate',
       injectRegister: 'auto',
       devOptions: {enabled: true},

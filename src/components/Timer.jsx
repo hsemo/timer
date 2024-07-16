@@ -1,7 +1,7 @@
 import {useState, useEffect, useRef, useMemo} from 'react';
 import {useTimers} from '../contexts/TimerContextProvider.jsx';
 
-import beep from '../assets/beep1.mp3';
+import beep from '/beep1.mp3';
 
 function Timer({id, label: lbl, time: tm}) {
   const [label, setLabel] = useState(lbl);
