@@ -1,5 +1,6 @@
 import {useState, useEffect, useRef, useMemo} from 'react';
 import {useTimers} from '../contexts/TimerContextProvider.jsx';
+import {PlayFill, PauseFill, StopFill, XLg} from 'react-bootstrap-icons';
 
 import beep from '/beep1.mp3';
 import useWakeLock from '../hooks/useWakeLock.js';
@@ -56,13 +57,14 @@ function Timer({id, label: lbl, time: tm}) {
   return(
     <>
       <div
-        className="p-4 m-4 rounded-lg text-center text-white bg-neutral-800 flex flex-col relative"
+        className="p-4 m-4 rounded-lg text-center text-white \
+        bg-neutral-800 flex flex-col relative w-max"
       >
         <button
-          className="py-1 px-2 text-black rounded-full absolute top-2 right-2 bg-red-600 hover:bg-red-700"
+          className="p-2 text-black rounded-full absolute top-2 right-2 bg-red-600 hover:bg-red-700"
           onClick={(e) => deleteTimer(id)}
         >
-          X
+          <XLg />
         </button>
 
         <input
@@ -91,20 +93,20 @@ function Timer({id, label: lbl, time: tm}) {
             className="border rounded-l-lg"
             onClickHandlr={startTimer}
           >
-            Start
+            <PlayFill size={24} />
           </Button>
 
           <Button
             onClickHandlr={stopTimer}
           >
-            Stop
+            <PauseFill size={24} />
           </Button>
 
           <Button
             className="border rounded-r-lg bg-red-600 hover:bg-red-700"
             onClickHandlr={resetTimer}
           >
-            Reset
+            <StopFill size={24} />
           </Button>
         </div>
       </div>
@@ -160,7 +162,7 @@ function Button({className, onClickHandlr, children}){
 
   return(
     <button
-      className={"px-4 py-2 bg-green-500 hover:bg-green-600 focus:outline-none" + className}
+      className={"p-2 bg-green-500 hover:bg-green-600 focus:outline-none hover:text-black focus:text-black" + className}
       onClick={onClickHandlr}
     >
       {children}

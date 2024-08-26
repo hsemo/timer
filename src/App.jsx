@@ -25,23 +25,17 @@ function TimersList(){
     <div
       className="flex justify-center flex-wrap"
     >
-      <ul>
-        {
-          timers.map((timer) => {
-            return (
-              <li
-                key={timer.id}
-              >
-                <Timer
-                  id={timer.id}
-                  label={timer.label}
-                  time={timer.time}
-                />
-              </li>
-            );
-          })
-        }
-      </ul>
+      {
+        timers.map((timer) => {
+          return (
+            <Timer
+              id={timer.id}
+              label={timer.label}
+              time={timer.time}
+            />
+          );
+        })
+      }
     </div>
   );
 }
