@@ -2,6 +2,7 @@ import {useState, useEffect, useRef, useMemo} from 'react';
 import {useTimers} from '../contexts/TimerContextProvider.jsx';
 
 import beep from '/beep1.mp3';
+import useWakeLock from '../hooks/useWakeLock.js';
 
 function Timer({id, label: lbl, time: tm}) {
   const [label, setLabel] = useState(lbl);
@@ -15,6 +16,7 @@ function Timer({id, label: lbl, time: tm}) {
 
   const sound = useMemo(() => new Audio(beep), []);
 
+  const {requestWakeLock, releaseWakeLock} = useWakeLock();
 
   useEffect(() => {
     if(timer === false){
@@ -112,12 +114,14 @@ function Timer({id, label: lbl, time: tm}) {
 
   function startTimer() {
     if(timer) return;
+    requestWakeLock();
     setTimer(true);
     console.log("timer start");
   };
 
   function stopTimer() {
     if(!timer) return;
+    releaseWakeLock();
     setTimer(false);
     console.log("timer stop");
   };
@@ -126,6 +130,7 @@ function Timer({id, label: lbl, time: tm}) {
     setTimer(false);
     timeRef.current = getTimeFromTm(tm);
     setTime(timeToStr(timeRef.current));
+    releaseWakeLock();
     console.log("timer reset");
   };
 
