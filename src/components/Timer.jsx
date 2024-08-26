@@ -61,7 +61,7 @@ function Timer({id, label: lbl, time: tm}) {
         bg-neutral-800 flex flex-col relative w-max"
       >
         <button
-          className="p-2 text-black rounded-full absolute top-2 right-2 bg-red-600 hover:bg-red-700"
+          className="p-2 text-black rounded-full absolute -top-2 -right-2 bg-red-600 hover:bg-red-700 shadow-md shadow-black"
           onClick={(e) => deleteTimer(id)}
         >
           <XLg />
