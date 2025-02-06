@@ -1,8 +1,8 @@
-import { Timer } from "./components/timer";
+import Timer from "@components/timer";
 import {
   useTimers,
   TimersContextProvider,
-} from "./contexts/TimerContextProvider.jsx";
+} from "./contexts/TimerContextProvider.js";
 
 import "./App.css";
 
@@ -37,7 +37,7 @@ function AddTimerButton() {
     <div className="flex justify-center">
       <button
         className="m-auto px-4 py-2 focus:outline-none text-2xl rounded-full bg-blue-600 hover:bg-blue-700"
-        onClick={(e) =>
+        onClick={() =>
           addTimer({
             id: Date.now(),
             time: "10:00",

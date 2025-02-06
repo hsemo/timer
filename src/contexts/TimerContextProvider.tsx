@@ -1,10 +1,4 @@
-import {
-  useState,
-  useContext,
-  createContext,
-  useEffect,
-  ReactElement,
-} from "react";
+import { useState, useContext, createContext, useEffect } from "react";
 
 import { getTimers, saveTimers } from "@src/utils";
 
@@ -19,7 +13,7 @@ function useTimers() {
   return useContext(TimersContext);
 }
 
-function TimersContextProvider({ children }: { children: ReactElement }) {
+function TimersContextProvider({ children }: { children: any }) {
   const [timers, setTimers] = useState(getTimers());
 
   useEffect(() => {
