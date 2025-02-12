@@ -24,3 +24,5 @@ dev-dist
 *.sln
 *.sw?
 .vercel
+
+package-lock.json
