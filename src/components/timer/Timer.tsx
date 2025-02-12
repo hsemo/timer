@@ -35,8 +35,6 @@ function Timer({ id, label: lbl, time: tm }: Timer) {
       minutes--;
       seconds = 59;
       if (minutes === -1 && seconds === 59) {
-        // minutes = 0;
-        // seconds = 0;
         playBeep();
       }
     }
@@ -92,7 +90,7 @@ function Timer({ id, label: lbl, time: tm }: Timer) {
       if ("key" in e && e.key && e.key !== "Enter") return;
       e.preventDefault();
       e.currentTarget.blur();
-      updateTimer(id, timeToStr(time), label);
+      updateTimer(id, label, timeToStr(time));
     },
     [time, label],
   );

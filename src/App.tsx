@@ -22,9 +22,8 @@ function TimersList() {
 
   return (
     <div className="flex justify-center flex-wrap">
-      {timers.map((timer, i) => {
-        console.log(`index: ${i}, timer: ${JSON.stringify(timer)}`);
-        return <Timer id={timer.id} label={timer.label} time={timer.time} />;
+      {timers.map(({ id, label, time }) => {
+        return <Timer key={id} id={id} label={label} time={time} />;
       })}
     </div>
   );

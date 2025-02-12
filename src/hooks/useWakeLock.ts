@@ -7,7 +7,7 @@ export default function useWakeLock() {
     try {
       // "screen" is the default wake lock type
       wakelock.current = await navigator.wakeLock.request("screen");
-      console.error("WakeLock acquired");
+      console.log("WakeLock acquired");
     } catch {
       console.error("Failed to acquire WakeLock");
       wakelock.current = null;
@@ -19,7 +19,7 @@ export default function useWakeLock() {
       try {
         await wakelock.current.release();
         wakelock.current = null;
-        console.error("WakeLock released");
+        console.log("WakeLock released");
       } catch {
         console.error("Error: could not release WakeLock");
       }

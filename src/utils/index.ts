@@ -19,7 +19,7 @@ function saveTimers(timers: Timer[]) {
 }
 
 function getTimers(): Timer[] {
-  const timers: Timer[] = JSON.parse(localStorage.getItem("timers") || "");
+  const timers: Timer[] = JSON.parse(localStorage.getItem("timers") || "null");
 
   if (timers === null) {
     saveTimers([
