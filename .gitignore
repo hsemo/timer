@@ -26,3 +26,4 @@ dev-dist
 .vercel
 
 package-lock.json
+pnpm-lock.yaml
