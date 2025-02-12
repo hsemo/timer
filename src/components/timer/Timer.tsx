@@ -43,6 +43,7 @@ function Timer({ id, label: lbl, time: tm }: Timer) {
   const resetTimer = useCallback(() => {
     setTimer(false);
     setTime(getTimeFromTm(tm));
+    setTimerFinished(false);
     releaseWakeLock();
     console.log("timer reset");
   }, [setTimer, setTime, tm, releaseWakeLock]);
