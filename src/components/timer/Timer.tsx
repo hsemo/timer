@@ -17,45 +17,14 @@ import beep from "/beep1.mp3";
 
 function Timer({ id, label: lbl, time: tm }: Timer) {
   const [label, setLabel] = useState(lbl);
-
   const [time, setTime] = useState<Time>(getTimeFromTm(tm));
-
   const [timer, setTimer] = useState(false);
+  const [timerFinished, setTimerFinished] = useState(false);
 
   const { updateTimer, deleteTimer } = useTimers();
-
-  const sound = useMemo(() => new Audio(beep), []);
-
   const { requestWakeLock, releaseWakeLock } = useWakeLock();
 
-  const increaseTime = useCallback((prevTime: Time) => {
-    let { minutes, seconds } = prevTime;
-    seconds--;
-    if (seconds < 0) {
-      minutes--;
-      seconds = 59;
-      if (minutes === -1 && seconds === 59) {
-        playBeep();
-      }
-    }
-
-    return { minutes, seconds };
-  }, []);
-
-  useEffect(() => {
-    if (timer === false) {
-      return;
-    }
-
-    const interId = setInterval(() => setTime(increaseTime), 1000);
-
-    console.log("interval started: ", interId);
-
-    return () => {
-      clearInterval(interId);
-      console.log("interval stopped: ", interId);
-    };
-  }, [timer]);
+  const sound = useMemo(() => new Audio(beep), []);
 
   const startTimer = useCallback(() => {
     if (timer) return;
@@ -81,6 +50,37 @@ function Timer({ id, label: lbl, time: tm }: Timer) {
   const playBeep = useCallback(() => {
     sound.play();
   }, [sound]);
+
+  const increaseTime = useCallback((prevTime: Time) => {
+    let { minutes, seconds } = prevTime;
+    seconds++;
+    if (seconds >= 59) {
+      minutes++;
+      seconds = 0;
+    }
+
+    return { minutes, seconds };
+  }, []);
+
+  const decreaseTime = useCallback(
+    (prevTime: Time) => {
+      let { minutes, seconds } = prevTime;
+      seconds--;
+      if (seconds < 0) {
+        seconds = 59;
+        minutes--;
+        if (minutes === -1 && seconds === 59) {
+          playBeep();
+          setTimerFinished(true);
+          minutes = 0;
+          seconds = 1;
+        }
+      }
+
+      return { minutes, seconds };
+    },
+    [setTimerFinished, playBeep],
+  );
 
   const updateTime = useCallback(
     (
@@ -110,6 +110,19 @@ function Timer({ id, label: lbl, time: tm }: Timer) {
     },
     [time, label],
   );
+
+  useEffect(() => {
+    if (timer === false) {
+      return;
+    }
+
+    const timerFunc = timerFinished ? increaseTime : decreaseTime;
+    const interId = setInterval(() => setTime(timerFunc), 1000);
+
+    return () => {
+      clearInterval(interId);
+    };
+  }, [timer, increaseTime, decreaseTime, setTime, timerFinished]);
 
   return (
     <>
