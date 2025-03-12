@@ -4,6 +4,8 @@ interface Timer {
   time: string;
 }
 
+type TimerObject = Timer;
+
 interface Time {
   minutes: number;
   seconds: number;
